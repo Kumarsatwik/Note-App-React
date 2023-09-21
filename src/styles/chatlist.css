@@ -1,0 +1,17 @@
+.chatlist__home{
+    height: 65vh;
+    overflow-y: scroll;
+    background-color: #f7ecdc;
+}
+.chatlist__chat{
+    display: flex;
+    gap: 20px;
+    margin:20px 15px;
+    font-size: 18px;
+}
+.chatlist__time{
+    width: 25%;
+}
+.chatlist__message{
+    width: 75%;
+}

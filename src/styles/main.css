@@ -1,0 +1,29 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+}
+.main > img{
+    margin-top: 5vh;
+    width: 70%;
+}
+.main__heading{
+    font-weight: 400;
+    font-size: 3rem;
+    line-height: 58px;
+    letter-spacing: 2%;
+} 
+.main p{
+    width: 50%;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 2%;
+    line-height: 25px;
+}
+
+.main .message{
+    position:fixed;
+    bottom: 10px;
+}

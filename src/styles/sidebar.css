@@ -1,0 +1,63 @@
+/* sidebar */
+.sidebar {
+  height: 100vh;
+  width: 25%;
+  overflow-y: scroll;
+}
+
+.sidebar__heading {
+  font-size: 2rem;
+  line-height: 2rem;
+  font-weight: 500;
+  letter-spacing: 2%;
+  margin: 2vw 2vh;
+}
+.sidebar__createButton {
+  width: 80%;
+  height: 45px;
+  color: white;
+  background-color: black;
+  border-radius: 50px;
+  outline: 0;
+  border: 0;
+  margin: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon {
+  font-size: 2rem;
+  margin-right: 7px;
+}
+
+.groupSection {
+  margin: 10px 0 10px 50px;
+  height: 70px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+  gap: 20px;
+  padding-left: 10px;
+  border-top-left-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+}
+.groupSelected{
+  background-color: #f7ecdc;
+}
+
+.groupIcon{
+  height:3rem;
+  width : 3rem;
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 500;
+  border-radius: 2rem 2rem;
+  padding: 0.75rem;
+  margin-right: 0.5rem;
+  color: white;
+}
