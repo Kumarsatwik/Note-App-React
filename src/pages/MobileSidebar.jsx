@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import "../styles/sidebar.css";
+import "../styles/mobile_sidebar.css";
 import { AiOutlinePlus } from "react-icons/ai";
-import Modal from "./Modal";
+import MobileModal from "./MobileModal";
 
 import { selectNote } from "../reducer/NotesSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
-const Sidebar = () => {
+const MobileSidebar = () => {
   const [openModal, setModal] = useState(false);
   const [group, setGroup] = useState([]);
   const [chosenGroup, setChosenGroup] = useState("");
 
   const groupDetails = useSelector((state) => state.notes.groupDetails);
   const dispatch = useDispatch();
-  // console.log(dispatch);
+
+  const navigate = useNavigate();
 
   const modalButton = () => {
     setModal(true);
@@ -34,39 +36,40 @@ const Sidebar = () => {
   const handleClick = (data) => {
     dispatch(selectNote({ selected: data.id }));
     setChosenGroup(data);
+    navigate(`/chat/${data.id}`);
     // setSelected(data);
   };
 
   // console.log(group);
 
   return (
-    <section className="sidebar">
-      <h1 className="sidebar__heading">Pocket Notes</h1>
-      <button className="sidebar__createButton" onClick={modalButton}>
+    <section className="mob__sidebar">
+      <h1 className="mob__sidebar_heading">Pocket Notes</h1>
+      <button className="mob__sidebar_createButton" onClick={modalButton}>
         <AiOutlinePlus className="icon" /> Create Notes Group
       </button>
-      {openModal && <Modal setModal={setModal} />}
+      {openModal && <MobileModal setModal={setModal} />}
 
       {group.length > 0 &&
         group?.map((data) => (
           <section
             key={data?.id}
-            className={`groupSection${
-              chosenGroup === data ? " groupSelected" : ""
+            className={`mob__groupSection${
+              chosenGroup === data ? " mob__groupSelected" : ""
             }`}
             onClick={() => handleClick(data)}
           >
             <span
-              className="groupIcon"
+              className="mob__groupIcon"
               style={{ backgroundColor: data?.color }}
             >
               {data?.groupName.slice(0, 2).toUpperCase()}
             </span>
-            <h3 className="groupNames">{data?.groupName}</h3>
+            <h3 className="mob__groupNames">{data?.groupName}</h3>
           </section>
         ))}
     </section>
   );
 };
 
-export default Sidebar;
+export default MobileSidebar;

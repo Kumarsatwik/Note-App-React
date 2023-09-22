@@ -5,6 +5,9 @@ import Main from "./Components/Main";
 import ChatHome from "./Components/ChatHome";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import Chats from "./Components/Chats";
+import MobileSidebar from "./pages/MobileSidebar";
+import MobileChats from "./pages/MobileChats";
 
 function App() {
   const selectedNotes = useSelector((state) => state.notes.selectedNotes);
@@ -20,8 +23,19 @@ function App() {
 
   return (
     <section className="App">
-      <Sidebar />
-      {selectedNotes !== "" ? <ChatHome /> : <Main />}
+      {screenSize < 900 ? (
+        <Router>
+          <Routes>
+            <Route path="/" element={<MobileSidebar />} />
+            <Route path="/chat/:id" element={<MobileChats />} />
+          </Routes>
+        </Router>
+      ) : (
+        <>
+          <Sidebar />
+          {selectedNotes !== "" ? <ChatHome /> : <Main />}
+        </>
+      )}
     </section>
   );
 }

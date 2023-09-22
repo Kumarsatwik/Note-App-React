@@ -12,7 +12,8 @@ const notesSlice = createSlice({
     addNote(state, action) {
       const { groupId, note } = action.payload;
       // console.log(groupId, note);
-      const findNote = state.groupDetails.find((group) => group.id === groupId);
+      const findNote = state.groupDetails.find((group) => group.id == groupId);
+      // console.log(findNote)
       if (findNote) {
         const currentTime = new Date();
         const timeStamp = currentTime.toLocaleString("en-US", {
