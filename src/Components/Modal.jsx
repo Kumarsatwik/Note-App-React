@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "../styles/modal.css";
-const Modal = ({ groups, setGroupName, setModal }) => {
+import { addNoteName } from "../reducer/NotesSlice";
+import { useSelector, useDispatch } from "react-redux";
+const Modal = ({ setModal }) => {
+  const dispatch = useDispatch();
+  // console.log("Dispatch value:", dispatch);
   const bgcolors = [
     "#b38bfa",
     "#ff79f2",
@@ -11,7 +15,6 @@ const Modal = ({ groups, setGroupName, setModal }) => {
   ];
   const [modalData, setModalData] = useState({ groupName: "", bgColor: "" });
   const [error, setError] = useState("");
-  const [reload, setReload] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,20 +26,17 @@ const Modal = ({ groups, setGroupName, setModal }) => {
       setError("Color is required");
       return;
     }
-    let storeData = [
-      ...groups,
-      {
-        groupName: modalData.groupName,
+
+    // console.log(modalData);
+
+    dispatch(
+      addNoteName({
+        name: modalData.groupName,
         color: modalData.bgColor,
-        notes: [],
-        id: Date.now(),
-      },
-    ];
-    setError("");
-    setGroupName(storeData);
-    localStorage.setItem("groupDetails", JSON.stringify(storeData));
+      })
+    );
     setModal(false);
-    setReload(!reload);
+    setError("");
   };
 
   const handleChange = (e) => {

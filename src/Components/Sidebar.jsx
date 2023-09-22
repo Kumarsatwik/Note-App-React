@@ -3,38 +3,39 @@ import "../styles/sidebar.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import Modal from "./Modal";
 
-const Sidebar = ({ selected, setSelected }) => {
+import { selectNote, addNoteName, addNote } from "../reducer/NotesSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+const Sidebar = () => {
   const [openModal, setModal] = useState(false);
   const [group, setGroup] = useState([]);
   const [chosenGroup, setChosenGroup] = useState("");
-  const [shouldReloadPage, setShouldReloadPage] = useState(false);
+
+  const groupDetails = useSelector((state) => state.notes.groupDetails);
+  const selectedNotes = useSelector((state) => state.notes.selectedNotes);
+  const dispatch = useDispatch();
+  // console.log(dispatch);
+
   const modalButton = () => {
     setModal(true);
   };
 
   function fetchData() {
-    let groupData = localStorage.getItem("groupDetails");
-    // console.log(groupData);
-    if (groupData && Array.isArray(JSON.parse(groupData))) {
-      setGroup(JSON.parse(groupData));
+    if (groupDetails && Array.isArray(groupDetails)) {
+      setGroup(groupDetails);
     } else {
       setGroup([]);
     }
-
-    if (shouldReloadPage) {
-      setShouldReloadPage(false);
-      location.reload();
-    }
-    // location.reload();
   }
 
   useEffect(() => {
     fetchData();
-  }, [openModal, shouldReloadPage]);
+  }, [openModal, groupDetails]);
 
   const handleClick = (data) => {
+    dispatch(selectNote({ selected: data.id }));
     setChosenGroup(data);
-    setSelected(data);
+    // setSelected(data);
   };
 
   // console.log(group);
@@ -45,9 +46,7 @@ const Sidebar = ({ selected, setSelected }) => {
       <button className="sidebar__createButton" onClick={modalButton}>
         <AiOutlinePlus className="icon" /> Create Notes Group
       </button>
-      {openModal && (
-        <Modal groups={group} setGroupName={setGroup} setModal={setModal} />
-      )}
+      {openModal && <Modal setModal={setModal} />}
 
       {group.length > 0 &&
         group?.map((data) => (

@@ -4,23 +4,19 @@ import Chats from "./Chats";
 import "../styles/chathome.css";
 import { AiOutlineSend } from "react-icons/ai";
 
-const ChatHome = ({ selectedNotes, setSelectedNotes }) => {
+import { addNote } from "../reducer/NotesSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+const ChatHome = () => {
   const [message, setMessage] = useState("");
   const [groups, setGroups] = useState([]);
+  const [selectedNotes, setSelectedNotes] = useState([]);
 
-  useEffect(() => {
-    const groupData = localStorage.getItem("groupDetails") || "[]";
-    setGroups(JSON.parse(groupData));
-  }, []);
+  const groupDetails = useSelector((state) => state.notes.groupDetails);
+  const selectednote = useSelector((state) => state.notes.selectedNotes);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const data = localStorage.getItem("groupDetails");
-    const notesArray = JSON.parse(data);
-    const groupIndex = notesArray.findIndex(
-      (group) => group.id === selectedNotes.id
-    );
-    setSelectedNotes(notesArray[groupIndex]);
-  }, [message]); // update on message change, which ensures data consistency
+  let data = groupDetails.filter((note) => note.id === selectednote);
 
   const handleMessageChange = (e) => setMessage(e.target.value);
 
@@ -30,25 +26,21 @@ const ChatHome = ({ selectedNotes, setSelectedNotes }) => {
       return;
     }
 
-    const currentTime = new Date();
-    const timeStamp = currentTime.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+    // const newGroup = [...groups];
+    // const groupIndex = newGroup.findIndex((group) => group.id === selected);
+    // // console.log(groupIndex);
+    // const currentGroup = newGroup[groupIndex];
+    // currentGroup["notes"].push({ timeStamp, message });
 
-    const newGroup = [...groups];
-    const groupIndex = newGroup.findIndex(
-      (group) => group.id === selectedNotes.id
+    // localStorage.setItem("groupDetails", JSON.stringify(newGroup));
+
+    dispatch(
+      addNote({
+        groupId: selectednote,
+        note: message,
+      })
     );
-    // console.log(groupIndex);
-    const currentGroup = newGroup[groupIndex];
-    currentGroup["notes"].push({ timeStamp, message });
 
-    localStorage.setItem("groupDetails", JSON.stringify(newGroup));
     setMessage("");
   };
 
@@ -61,12 +53,9 @@ const ChatHome = ({ selectedNotes, setSelectedNotes }) => {
 
   return (
     <div className="chat__home">
-      <ChatHeading
-        name={selectedNotes?.groupName}
-        color={selectedNotes?.color}
-      />
+      <ChatHeading name={data[0].groupName} color={data[0].color} />
       <div className="chat__list">
-        <Chats notes={selectedNotes.notes} />
+        <Chats notes={data[0].notes} />
         <div className="chat__input_container">
           <textarea
             className="chat__input"
